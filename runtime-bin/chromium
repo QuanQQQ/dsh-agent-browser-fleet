@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Debian Chromium 150.0.7871.46 crashes with SIGTRAP when launched with
+# --no-first-run (Debian bugs #1141488 and #1141618). devbox-chrome-debug
+# supplies that flag, so remove only this affected UI flag and preserve every
+# security, profile, display, and remote-debugging argument verbatim.
+args=()
+for arg in "$@"; do
+  [[ "$arg" == "--no-first-run" ]] && continue
+  args+=("$arg")
+done
+
+if [[ ! -x /usr/bin/chromium ]]; then
+  echo "dsh-agent-browser-fleet requires executable /usr/bin/chromium" >&2
+  exit 127
+fi
+exec /usr/bin/chromium "${args[@]}"

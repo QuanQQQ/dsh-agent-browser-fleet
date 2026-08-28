@@ -1,0 +1,98 @@
+{
+  "name": "dsh-agent-browser-fleet",
+  "version": "0.1.0",
+  "description": "Shared-Control Session Browsers with reusable Chromium identities and Playwright MCP",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuanQQQ/dsh-agent-browser-fleet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/QuanQQQ/dsh-agent-browser-fleet/issues"
+  },
+  "homepage": "https://github.com/QuanQQQ/dsh-agent-browser-fleet#readme",
+  "type": "module",
+  "main": "lib/host.mjs",
+  "bin": {
+    "dsh-agent-browser-fleet-chromium": "runtime-bin/chromium"
+  },
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/host.mjs"
+    },
+    "./client": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "runtime-bin",
+    "cordis.patch.yml",
+    "CONTEXT.md",
+    "README.md",
+    "LICENSE",
+    "docs/*.md",
+    "docs/adr/*.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "build": "rm -rf lib && tsc -p tsconfig.build.json && tsdown --config tsdown.config.ts",
+    "dev:client": "tsdown --config tsdown.config.ts --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.spec.ts",
+    "experiment:profiles": "node --import tsx scripts/profile-copy-experiment.ts",
+    "check": "pnpm typecheck && pnpm test && pnpm build"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-client-runtime": "^0.1.0-rc.6",
+    "@deepseek-ai/dsh-client-ui-layout": "^0.1.0-rc.6",
+    "@deepseek-ai/dsh-client-ui-sidebar": "^0.1.0-rc.6",
+    "@deepseek-ai/dsh-client-ui-slots": "^0.1.0-rc.6",
+    "@deepseek-ai/dsh-system-prompt": "^0.1.0-rc.6",
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6",
+    "dsh-better-sidebar": ">=0.16.1 <1",
+    "react": "^18.2.0"
+  },
+  "peerDependenciesMeta": {
+    "dsh-better-sidebar": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-client-runtime": "0.1.0-rc.6",
+    "@deepseek-ai/dsh-client-ui-layout": "0.1.0-rc.6",
+    "@deepseek-ai/dsh-client-ui-sidebar": "0.1.0-rc.6",
+    "@deepseek-ai/dsh-client-ui-slots": "0.1.0-rc.6",
+    "@deepseek-ai/dsh-system-prompt": "0.1.0-rc.6",
+    "@deepseek-ai/dsh-tools": "0.1.0-rc.6",
+    "@types/node": "^22.0.0",
+    "@types/react": "~18.3.1",
+    "dsh-better-sidebar": "0.16.1",
+    "react": "^18.2.0",
+    "tsdown": "^0.22.2",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@playwright/mcp": "0.0.79",
+    "playwright-core": "1.63.0-alpha-2026-08-05"
+  }
+}

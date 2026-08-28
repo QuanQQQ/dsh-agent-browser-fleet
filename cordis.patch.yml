@@ -1,0 +1,4 @@
+# Mount Agent Browser Fleet as Host and Web client faces.
+- insert:
+    - id: agent-browser-fleet
+      name: 'dsh-agent-browser-fleet'
